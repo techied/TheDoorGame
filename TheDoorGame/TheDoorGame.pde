@@ -17,9 +17,10 @@ void level1(){
   background = loadImage("Background1.png");
   image(background, 0, 0);
   image(door, 700, 400);
-  fill();
-  rect(0, 0, 150, 20);
-  text("Hello, world!", 150, 20);
+  fill(255, 255, 255);
+  rect(0, 0, 170, 20);
+  fill(0, 0, 0);
+  text("Use wasd to move to the door!", 0, 15);
 }
 void keyPressed(){
   if(key == 'w')
