@@ -543,7 +543,7 @@ void level6() {
   if (button1 && button2 && !hasRedKey) {
     image(redKey, 750, 450);
   }
-  if (playerX + 16 > 750 && playerX < 750 + 32 && playerY + 16 > 450 && playerY < 450 + 16) {
+  if (playerX + 16 > 750 && playerX < 750 + 32 && playerY + 16 > 450 && playerY < 450 + 16 && !hasRedKey) {
     hasRedKey = true;
     keyBing = minim.loadFile("Ding.wav");
     keyBing.play();
