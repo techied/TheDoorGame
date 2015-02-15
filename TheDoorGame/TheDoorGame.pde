@@ -1,4 +1,7 @@
 import javax.swing.JOptionPane;
+import ddf.minim.*;
+Minim minim;
+AudioPlayer keyBing, blackHoleSound;
 PImage background;
 PImage door;
 PImage player;
@@ -15,6 +18,9 @@ void setup() {
   player = loadImage("Player.png");
   yellowKey = loadImage("yellowKey.png");
   blackHole = loadImage("BlackHole.png");
+  minim = new Minim(this);
+  keyBing = minim.loadFile("Ding.wav");
+  blackHoleSound = minim.loadFile("BlackHole.wav");
   JOptionPane.showMessageDialog(null, "Get to the door! Use wasd to move.");
 }
 void draw() {
@@ -43,6 +49,7 @@ void level1() {
   } else if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3)) && hasYellowKey)
   {
     image(blackHole, 700, 400);
+    blackHoleSound.play();
     try {
       Thread.sleep(1000);
     } 
@@ -54,6 +61,7 @@ void level1() {
     playerY = 300;
   } else if (hasYellowKey) {
     sayText("You have the key!");
+    keyBing.play();
   }
   if (!hasYellowKey)
   {
@@ -82,6 +90,9 @@ void level2() {
   background = loadImage("Background2.png");
   image(background, 0, 0);
   image(door, 15, 15);
-  
 }
-
+void stop()
+{
+ minim.stop() ;
+ super.stop() ;
+}
