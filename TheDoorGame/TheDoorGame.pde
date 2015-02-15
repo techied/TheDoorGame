@@ -1,7 +1,7 @@
 import javax.swing.JOptionPane;
 import ddf.minim.*;
 Minim minim;
-AudioPlayer keyBing, blackHoleSound;
+AudioPlayer keyBing, blackHoleSound, leverFlip;
 PImage background;
 PImage door;
 PImage door2;
@@ -31,6 +31,7 @@ void setup() {
   minim = new Minim(this);
   keyBing = minim.loadFile("Ding.wav");
   blackHoleSound = minim.loadFile("BlackHole.wav");
+  leverFlip = minim.loadFile("LeverFlip.wav");
   JOptionPane.showMessageDialog(null, "Get to the door! Use wasd to move.");
 }
 void draw() {
@@ -74,7 +75,6 @@ void level1() {
     playerY = 300;
   } else if (hasYellowKey) {
     sayText("You have the key!");
-    keyBing.play();
   }
   if (!hasYellowKey)
   {
@@ -82,6 +82,7 @@ void level1() {
   }
   if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasYellowKey) {
     hasYellowKey = true;
+    keyBing.play();
   }
 }
 void keyPressed() {
@@ -112,9 +113,11 @@ void level2() {
   {
     image(SwichOn, 100, 400);
   }
-  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420)
+  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420 && !swich)
   {
     swich = true;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
   }
   if (swich == true && !hasRedKey)
   {
@@ -156,9 +159,11 @@ void level3()
   {
     image(SwichOn, 100, 400);
   }
-  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420)
+  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420 && !swich)
   {
     swich = true;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
   }
   if (swich == true && hasRedKey == false)
   {
@@ -174,6 +179,8 @@ void level3()
   if (playerX > 80 && playerX < 120 && playerY > 480 && playerY < 520)
   {
     swich2 = true;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
   }
   if (swich2 == true)
   {
@@ -181,6 +188,7 @@ void level3()
     swich2 = false;
     playerX = 700;
     playerY = 400;
+    hasRedKey = false;
   }
   if (playerX + 16 > 15 && playerX < (15 + (32*3)) && playerY + 16 > 15 && playerY < (15 + (64*3)) && hasRedKey)
   {
