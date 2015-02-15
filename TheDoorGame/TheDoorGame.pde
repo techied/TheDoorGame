@@ -210,6 +210,7 @@ void level3()
     keyBing = minim.loadFile("Ding.wav");
     keyBing.play();
   }
+  sayText("By the way, some switches reset you.");
 }
 
 void stop()
@@ -217,4 +218,3 @@ void stop()
   minim.stop() ;
   super.stop() ;
 }
-
