@@ -15,9 +15,11 @@ PImage SwichOff;
 boolean hasYellowKey = false;
 boolean hasRedKey = false;
 boolean swich = false;
+boolean swich2 = false;
 int playerX = 400;
 int playerY = 300;
 int level = 1;
+int mms = 10;
 void setup() {
   size(800, 600);
   door = loadImage("Door.png");
@@ -38,6 +40,9 @@ void draw() {
     break;
   case 2:
     level2();
+    break;
+  case 3:
+    level3();
     break;
   }
   image(player, playerX, playerY);
@@ -82,16 +87,16 @@ void level1() {
 void keyPressed() {
   if (key == 'w')
   {
-    playerY = playerY-5;
+    playerY = playerY-mms;
   } else if (key == 'a')
   {
-    playerX = playerX-5;
+    playerX = playerX-mms;
   } else if (key == 'd')
   {
-    playerX = playerX+5;
+    playerX = playerX+mms;
   } else if (key == 's')
   {
-    playerY = playerY+5;
+    playerY = playerY+mms;
   }
 }
 void level2() {
@@ -132,12 +137,76 @@ void level2() {
     }
     level++;
     hasRedKey = false;
+    swich = false;
     playerX = 400;
     playerY = 300;
   }
 }
+void level3()
+{
+  background = loadImage("Background2.png");
+  SwichOn = loadImage("LeverOn.png");
+  SwichOff = loadImage("LeverOff.png");
+  image(background, 0, 0);
+  image(door, 15, 15);
+  if (swich == false)
+  {
+    image(SwichOff, 100, 400);
+  } else
+  {
+    image(SwichOn, 100, 400);
+  }
+  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420)
+  {
+    swich = true;
+  }
+  if (swich == true && hasRedKey == false)
+  {
+    image(redKey, 70, 325);
+  }
+  if (swich2 == false)
+  {
+    image(SwichOff, 100, 500);
+  } else
+  {
+    image(SwichOn, 100, 500);
+  }
+  if (playerX > 80 && playerX < 120 && playerY > 480 && playerY < 520)
+  {
+    swich2 = true;
+  }
+  if (swich2 == true)
+  {
+    swich = false;
+    swich2 = false;
+    playerX = 700;
+    playerY = 400;
+  }
+  if (playerX + 16 > 15 && playerX < (15 + (32*3)) && playerY + 16 > 15 && playerY < (15 + (64*3)) && hasRedKey)
+  {
+    image(blackHole, 15, 15);
+    blackHoleSound = minim.loadFile("BlackHole.wav");
+    blackHoleSound.play();
+    try {
+      Thread.sleep(1000);
+    } 
+    catch (Exception e) {
+    }
+    level++;
+    hasRedKey = false;
+    playerX = 15;
+    playerY = 15;
+  }
+  if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
+    hasRedKey = true;
+    keyBing = minim.loadFile("Ding.wav");
+    keyBing.play();
+  }
+}
+
 void stop()
 {
   minim.stop() ;
   super.stop() ;
 }
+
