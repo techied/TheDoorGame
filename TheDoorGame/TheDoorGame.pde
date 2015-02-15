@@ -18,6 +18,9 @@ PImage buttonOff;
 PImage cube;
 PImage blueKey;
 PImage pinkKey;
+PImage blueLeverOn;
+PImage blueLeverOff;
+PImage barrier;
 boolean hasGreenKey = false;
 boolean swich3 = false;
 boolean hasYellowKey = false;
@@ -76,6 +79,12 @@ void draw() {
   case 6:
     level6();
     break;
+  case 7:
+    level7();
+    break;
+  default:
+    theEnd();
+    break;
   }
   image(player, playerX, playerY);
 }
@@ -83,7 +92,7 @@ void sayText(String t) {
   fill(255, 255, 255);
   rect(0, 0, 800, 20);
   fill(0, 0, 0);
-  text(t, 0, 15);
+  text(t, 2, 15);
 }
 void level1() {
   background = loadImage("Background1.png");
@@ -467,9 +476,8 @@ void level6() {
   buttonOn = loadImage("ButtonOn.png");
   buttonOff = loadImage("ButtonOff.png");
   box = loadImage("Box.png");
-  door = loadImage("Door2.png");
   background(background);
-  image(door, 600, 8);
+  image(door2, 600, 8);
   if (button1) {
     image(buttonOn, 200, 500);
   } else {
@@ -492,8 +500,8 @@ void level6() {
   if (canUseBox2) {
     if (playerX + 16 > box2x && playerX < box2x + 16 && playerY + 16 > box2y && playerY < box2y + 16) {
       hasBox2 = true;
-      box1x = playerX;
-      box1y = playerY - (17 * 2);
+      box2x = playerX;
+      box2y = playerY - (17 * 2);
     }
   }
   if (hasBox1) {
@@ -560,6 +568,18 @@ void level6() {
     box2x = 150;
     box2y = 200;
   }
+}
+
+void level7() {
+  background = loadImage("Background1.png");
+  barrier = loadImage("Barrier.png");
+  background(background);
+  image(door, 4, 4);
+}
+
+void theEnd() {
+  background(0);
+  sayText("The End! More Levels will be developed in the future.");
 }
 
 void stop()
