@@ -8,7 +8,10 @@ PImage player;
 PImage yellowKey;
 PImage blackHole;
 PImage box;
+PImage SwichOn;
+PImage SwichOff;
 boolean hasYellowKey = false;
+boolean swich = false;
 int playerX = 400;
 int playerY = 300;
 int level = 1;
@@ -88,11 +91,30 @@ void keyPressed() {
 }
 void level2() {
   background = loadImage("Background2.png");
+  SwichOn = loadImage("LeverOn.png");
+  SwichOff = loadImage("LeverOff.png");
   image(background, 0, 0);
   image(door, 15, 15);
+  if (swich == false)
+  {
+    image(SwichOff, 100, 400);
+  } else
+  {
+    image(SwichOn, 100, 400);
+  }
+  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420)
+  {
+    swich = true;
+  }
+  if (swich == true)
+  {
+    image(yellowKey, 70, 325);
+  }
 }
+
 void stop()
 {
- minim.stop() ;
- super.stop() ;
+  minim.stop() ;
+  super.stop() ;
 }
+
