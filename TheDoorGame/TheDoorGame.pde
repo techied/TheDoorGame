@@ -27,18 +27,22 @@ void level1() {
   background = loadImage("Background1.png");
   image(background, 0, 0);
   image(door, 700, 400);
-  if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3))) {
+  if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3)) && !hasYellowKey) {
     sayText("I'm locked! Find the key!");
   } else if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3)) && hasYellowKey)
   {
     image(blackHole, 700, 400);
+  }else if(hasYellowKey){
+    sayText("You have the key!");
   }
   if (!hasYellowKey)
   {
     image(yellowKey, 70, 325);
   }
-  if ()
+  if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasYellowKey) {
+    hasYellowKey = true;
   }
+}
   void keyPressed() {
     if (key == 'w')
     {
