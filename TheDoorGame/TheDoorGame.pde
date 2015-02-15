@@ -4,13 +4,16 @@ Minim minim;
 AudioPlayer keyBing, blackHoleSound;
 PImage background;
 PImage door;
+PImage door2;
 PImage player;
 PImage yellowKey;
+PImage redKey;
 PImage blackHole;
 PImage box;
 PImage SwichOn;
 PImage SwichOff;
 boolean hasYellowKey = false;
+boolean hasRedKey = false;
 boolean swich = false;
 int playerX = 400;
 int playerY = 300;
@@ -21,6 +24,8 @@ void setup() {
   player = loadImage("Player.png");
   yellowKey = loadImage("yellowKey.png");
   blackHole = loadImage("BlackHole.png");
+  redKey = loadImage("Key2.png");
+  door2 = loadImage("Door2.png");
   minim = new Minim(this);
   keyBing = minim.loadFile("Ding.wav");
   blackHoleSound = minim.loadFile("BlackHole.wav");
@@ -94,7 +99,7 @@ void level2() {
   SwichOn = loadImage("LeverOn.png");
   SwichOff = loadImage("LeverOff.png");
   image(background, 0, 0);
-  image(door, 15, 15);
+  image(door2, 15, 15);
   if (swich == false)
   {
     image(SwichOff, 100, 400);
@@ -106,15 +111,33 @@ void level2() {
   {
     swich = true;
   }
-  if (swich == true)
+  if (swich == true && !hasRedKey)
   {
-    image(yellowKey, 70, 325);
+    image(redKey, 70, 325);
+  }
+  if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
+    hasRedKey = true;
+    keyBing = minim.loadFile("Ding.wav");
+    keyBing.play();
+  }
+  if (playerX + 16 > 15 && playerX < (15 + (32*3)) && playerY + 16 > 15 && playerY < (15 + (64*3)) && hasRedKey)
+  {
+    image(blackHole, 15, 15);
+    blackHoleSound = minim.loadFile("BlackHole.wav");
+    blackHoleSound.play();
+    try {
+      Thread.sleep(1000);
+    } 
+    catch (Exception e) {
+    }
+    level++;
+    hasRedKey = false;
+    playerX = 400;
+    playerY = 300;
   }
 }
-
 void stop()
 {
   minim.stop() ;
   super.stop() ;
 }
-
