@@ -1,8 +1,10 @@
+import javax.swing.JOptionPane;
 PImage background;
 PImage door;
 PImage player;
 PImage yellowKey;
 PImage blackHole;
+PImage box;
 boolean hasYellowKey = false;
 int playerX = 400;
 int playerY = 300;
@@ -13,14 +15,15 @@ void setup() {
   player = loadImage("Player.png");
   yellowKey = loadImage("yellowKey.png");
   blackHole = loadImage("BlackHole.png");
+  JOptionPane.showMessageDialog(null, "Get to the door! Use wasd to move.");
 }
 void draw() {
-  switch(level){
-    case 1:
+  switch(level) {
+  case 1:
     level1();
     break;
-    case 2:
-    //level2();
+  case 2:
+    level2();
     break;
   }
   image(player, playerX, playerY);
@@ -40,12 +43,16 @@ void level1() {
   } else if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3)) && hasYellowKey)
   {
     image(blackHole, 700, 400);
-    try{
-    Thread.sleep(1000);
-    } catch (Exception e){}
+    try {
+      Thread.sleep(1000);
+    } 
+    catch (Exception e) {
+    }
     level++;
     hasYellowKey = false;
-  }else if(hasYellowKey){
+    playerX = 400;
+    playerY = 300;
+  } else if (hasYellowKey) {
     sayText("You have the key!");
   }
   if (!hasYellowKey)
@@ -56,19 +63,25 @@ void level1() {
     hasYellowKey = true;
   }
 }
-  void keyPressed() {
-    if (key == 'w')
-    {
-      playerY = playerY-5;
-    } else if (key == 'a')
-    {
-      playerX = playerX-5;
-    } else if (key == 'd')
-    {
-      playerX = playerX+5;
-    } else if (key == 's')
-    {
-      playerY = playerY+5;
-    }
+void keyPressed() {
+  if (key == 'w')
+  {
+    playerY = playerY-5;
+  } else if (key == 'a')
+  {
+    playerX = playerX-5;
+  } else if (key == 'd')
+  {
+    playerX = playerX+5;
+  } else if (key == 's')
+  {
+    playerY = playerY+5;
   }
+}
+void level2() {
+  background = loadImage("Background2.png");
+  image(background, 0, 0);
+  image(door, 15, 15);
+  
+}
 
