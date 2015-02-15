@@ -13,21 +13,28 @@ PImage box;
 PImage SwichOn;
 PImage SwichOff;
 PImage greenKey;
+PImage buttonOn;
+PImage buttonOff;
+PImage cube;
 boolean hasGreenKey = false;
 boolean swich3 = false;
 boolean hasYellowKey = false;
 boolean hasRedKey = false;
 boolean swich = false;
 boolean swich2 = false;
+boolean hasBox1 = false;
+boolean button1 = false;
 int playerX = 400;
 int playerY = 300;
+int box1x = 500;
+int box1y = 200;
 int level = 1;
-int mms = 10;
+int mms = 5;
 void setup() {
   size(800, 600);
   door = loadImage("Door.png");
   player = loadImage("Player.png");
-  yellowKey = loadImage("yellowKey.png");
+  yellowKey = loadImage("Key.png");
   blackHole = loadImage("BlackHole.png");
   redKey = loadImage("Key2.png");
   greenKey = loadImage("Key3.png");
@@ -52,6 +59,9 @@ void draw() {
   case 4:
     level4();
     break;
+  case 5:
+    level5();
+    break;
   }
   image(player, playerX, playerY);
 }
@@ -63,7 +73,7 @@ void sayText(String t) {
 }
 void level1() {
   background = loadImage("Background1.png");
-  image(background, 0, 0);
+  background(background);
   image(door, 700, 400);
   if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3)) && !hasYellowKey) {
     sayText("I'm locked! Find the key!");
@@ -105,16 +115,29 @@ void keyPressed() {
   } else if (key == 's' && playerY + 16 < 600)
   {
     playerY = playerY+mms;
-  } 
-  //  else if (key == 'n'){
-  //    level++;
-  //  }
+  } else if (key == 'r'){
+    hasGreenKey = false;
+    swich3 = false;
+    hasYellowKey = false;
+    hasRedKey = false;
+    swich = false;
+    swich2 = false;
+    hasBox1 = false;
+    button1 = false;
+    playerX = 400;
+    playerY = 300;
+    box1x = 500;
+    box1y = 200;
+  }
+    else if (key == 'n'){
+      level++;
+    }
 }
 void level2() {
   background = loadImage("Background1.png");
   SwichOn = loadImage("LeverOn.png");
   SwichOff = loadImage("LeverOff.png");
-  image(background, 0, 0);
+  background(background);
   image(door, 15, 15);
   if (swich == false)
   {
@@ -161,7 +184,7 @@ void level3()
   background = loadImage("Background2.png");
   SwichOn = loadImage("LeverOn.png");
   SwichOff = loadImage("LeverOff.png");
-  image(background, 0, 0);
+  background(background);
   image(door2, 15, 15);
   if (swich == false)
   {
@@ -229,7 +252,7 @@ void level4()
   background = loadImage("Background2.png");
   SwichOn = loadImage("LeverOn.png");
   SwichOff = loadImage("LeverOff.png");
-  image(background, 0, 0);
+  background(background);
   image(door2, 15, 15);
   if (swich == false)
   {
@@ -316,8 +339,8 @@ void level4()
     }
     level++;
     hasRedKey = false;
-    playerX = 15;
-    playerY = 15;
+    playerX = 400;
+    playerY = 300;
   }
   if (playerX + 16 > 200 && playerX < (200 + (32)) && playerY + 16 > 100 && playerY < (100 + (16)) && !hasRedKey && swich) {
     if (!hasYellowKey)
@@ -361,6 +384,63 @@ void level4()
     }
   }
   sayText("Keys don't just open doors!");
+}
+
+void level5() {
+  background = loadImage("Background1.png");
+  buttonOn = loadImage("ButtonOn.png");
+  buttonOff = loadImage("ButtonOff.png");
+  box = loadImage("Box.png");
+  background(background);
+  image(door, 40, 40);
+  image(box, box1x, box1y);
+  if (playerX + 16 > box1x && playerX < box1x + 16 && playerY + 16 > box1y && playerY < box1y + 16) {
+    hasBox1 = true;
+  }
+  if (50 + 16 > box1x && 50 < box1x + 16 && 500 + 16 > box1y && 500 < box1y + 16 && !button1) {
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
+    hasBox1 = false;
+    image(buttonOn, 50, 500);
+    button1 = true;
+    box1x = 50;
+    box1y = 495;
+  } else if (50 + 16 > box1x && 50 < box1x + 16 && 500 + 16 > box1y && 500 < box1y + 16) {
+    hasBox1 = false;
+    image(buttonOn, 50, 500);
+    button1 = true;
+    box1x = 50;
+    box1y = 495;
+  } else {
+    image(buttonOff, 50, 500);
+  }
+  if (hasBox1) {
+    box1x = playerX;
+    box1y = playerY - 17;
+  }
+  if (button1 && !hasYellowKey && playerX + 16 > 500 && playerX < 500 + 32 && playerY + 16 > 300 && playerY < 300 + 16) {
+    hasYellowKey = true;
+    keyBing = minim.loadFile("Ding.wav");
+    keyBing.play();
+  } else if (button1 && !hasYellowKey) {
+    image(yellowKey, 500, 300);
+  }
+  if (hasYellowKey && playerX + 16 > 40 && playerX < 40 + 96 && playerY + 16 > 40 && playerY < 40 + 192) {
+    image(blackHole, 40, 40);
+    blackHoleSound = minim.loadFile("BlackHole.wav");
+    blackHoleSound.play();
+    try {
+      Thread.sleep(1000);
+    } 
+    catch (Exception e) {
+    }
+    level++;
+    hasYellowKey = false;
+    button1 = false;
+    playerX = 400;
+    playerY = 300;
+  }
+  sayText("Cubes can be picked up and placed down on buttons, but they can never come off. Press R to restart a level if you get stuck.");
 }
 
 void stop()
