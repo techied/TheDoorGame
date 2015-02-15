@@ -12,6 +12,9 @@ PImage blackHole;
 PImage box;
 PImage SwichOn;
 PImage SwichOff;
+PImage greenKey;
+boolean hasGreenKey = false;
+boolean swich3 = false;
 boolean hasYellowKey = false;
 boolean hasRedKey = false;
 boolean swich = false;
@@ -27,6 +30,7 @@ void setup() {
   yellowKey = loadImage("yellowKey.png");
   blackHole = loadImage("BlackHole.png");
   redKey = loadImage("Key2.png");
+  greenKey = loadImage("Key3.png");
   door2 = loadImage("Door2.png");
   minim = new Minim(this);
   keyBing = minim.loadFile("Ding.wav");
@@ -44,6 +48,9 @@ void draw() {
     break;
   case 3:
     level3();
+    break;
+  case 4:
+    level4();
     break;
   }
   image(player, playerX, playerY);
@@ -98,6 +105,9 @@ void keyPressed() {
   } else if (key == 's')
   {
     playerY = playerY+mms;
+  } else if (key == 'n')
+  {
+    level++;
   }
 }
 void level2() {
@@ -151,7 +161,7 @@ void level3()
   SwichOn = loadImage("LeverOn.png");
   SwichOff = loadImage("LeverOff.png");
   image(background, 0, 0);
-  image(door, 15, 15);
+  image(door2, 15, 15);
   if (swich == false)
   {
     image(SwichOff, 100, 400);
@@ -195,6 +205,109 @@ void level3()
     image(blackHole, 15, 15);
     blackHoleSound = minim.loadFile("BlackHole.wav");
     blackHoleSound.play();
+    swich = false;
+    try {
+      Thread.sleep(1000);
+    } 
+    catch (Exception e) {
+    }
+    level++;
+    hasRedKey = false;
+    playerX = 400;
+    playerY = 300;
+  }
+  if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
+    hasRedKey = true;
+    keyBing = minim.loadFile("Ding.wav");
+    keyBing.play();
+  }
+  sayText("By the way, some switches reset you.");
+}
+void level4()
+{
+  background = loadImage("Background2.png");
+  SwichOn = loadImage("LeverOn.png");
+  SwichOff = loadImage("LeverOff.png");
+  image(background, 0, 0);
+  image(door2, 15, 15);
+  if (swich == false)
+  {
+    image(SwichOff, 200, 50);
+  } else
+  {
+    image(SwichOn, 200, 50);
+  }
+  if (swich3 == false)
+  {
+    image(SwichOff, 600, 50);
+  } else
+  {
+    image(SwichOn, 600, 50);
+  }
+  if (swich2 == false)
+  {
+    image(SwichOff, 400, 50);
+  } else
+  {
+    image(SwichOn, 400, 50);
+  }
+  if (swich2 == true && !hasYellowKey)
+  {
+    image(yellowKey, 400, 100);
+  }
+  if (swich == true && !hasRedKey)
+  {
+    image(redKey, 200, 100);
+  }
+  if (swich3 == true && !hasGreenKey)
+  {
+    image(greenKey, 600, 100);
+  }
+  if (playerX > 180 && playerX < 220 && playerY > 30 && playerY < 70 && hasYellowKey && !swich)
+  {
+    swich = true;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
+  } else if (playerX > 180 && playerX < 220 && playerY > 30 && playerY < 70 && !hasYellowKey) {
+    swich = false;
+    swich2 = false;
+    swich3 = false;
+    playerX = 700;
+    playerY = 400;
+    hasRedKey = false;
+    hasYellowKey = false;
+    hasGreenKey = false;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
+  }
+  if (playerX > 380 && playerX < 420 && playerY > 30 && playerY < 70 && !swich2)
+  {
+    swich2 = true;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
+  }
+  if (playerX > 580 && playerX < 620 && playerY > 30 && playerY < 70 && hasRedKey && hasYellowKey && !swich3)
+  {
+    swich3 = true;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
+  } else if (playerX > 580 && playerX < 620 && playerY > 30 && playerY < 70 && (!hasRedKey || !hasYellowKey)) {
+    swich = false;
+    swich2 = false;
+    swich3 = false;
+    playerX = 700;
+    playerY = 400;
+    hasRedKey = false;
+    hasYellowKey = false;
+    hasGreenKey = false;
+    leverFlip = minim.loadFile("LeverFlip.wav");
+    leverFlip.play();
+  }
+  if (playerX + 16 > 15 && playerX < (15 + (32*3)) && playerY + 16 > 15 && playerY < (15 + (64*3)) && hasGreenKey)
+  {
+    image(blackHole, 15, 15);
+    blackHoleSound = minim.loadFile("BlackHole.wav");
+    blackHoleSound.play();
     try {
       Thread.sleep(1000);
     } 
@@ -205,12 +318,47 @@ void level3()
     playerX = 15;
     playerY = 15;
   }
-  if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
-    hasRedKey = true;
+  if (playerX + 16 > 200 && playerX < (200 + (32)) && playerY + 16 > 100 && playerY < (100 + (16)) && !hasRedKey && swich) {
+    if (!hasYellowKey)
+    {
+      swich = false;
+      swich2 = false;
+      swich3 = false;
+      playerX = 700;
+      playerY = 400;
+      hasRedKey = false;
+      hasYellowKey = false;
+      hasGreenKey = false;
+    } else
+    {
+      hasRedKey = true;
+      keyBing = minim.loadFile("Ding.wav");
+      keyBing.play();
+    }
+  }
+  if (playerX + 16 > 400 && playerX < (400 + (32)) && playerY + 16 > 100 && playerY < (100 + (16)) && !hasYellowKey && swich2) {
+    hasYellowKey = true;
     keyBing = minim.loadFile("Ding.wav");
     keyBing.play();
   }
-  sayText("By the way, some switches reset you.");
+  if (playerX + 16 > 600 && playerX < (600 + (32)) && playerY + 16 > 100 && playerY < (100 + (16)) && !hasGreenKey && swich3) {
+    if (!hasRedKey)
+    {
+      swich = false;
+      swich2 = false;
+      swich3 = false;
+      playerX = 700;
+      playerY = 400;
+      hasRedKey = false;
+      hasYellowKey = false;
+      hasGreenKey = false;
+    } else
+    {
+      hasGreenKey = true;
+      keyBing = minim.loadFile("Ding.wav");
+      keyBing.play();
+    }
+  }
 }
 
 void stop()
@@ -218,3 +366,4 @@ void stop()
   minim.stop() ;
   super.stop() ;
 }
+
