@@ -121,9 +121,9 @@ void level2() {
   }
   if (swich == true && !hasRedKey)
   {
-    image(redKey, 70, 325);
+    image(redKey, 200, 325);
   }
-  if (playerX + 16 > 70 && playerX < (70 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
+  if (playerX + 16 > 200 && playerX < (200 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
     hasRedKey = true;
     keyBing = minim.loadFile("Ding.wav");
     keyBing.play();
