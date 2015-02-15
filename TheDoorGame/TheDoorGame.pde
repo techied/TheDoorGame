@@ -6,6 +6,7 @@ PImage blackHole;
 boolean hasYellowKey = false;
 int playerX = 400;
 int playerY = 300;
+int level = 1;
 void setup() {
   size(800, 600);
   door = loadImage("Door.png");
@@ -14,7 +15,14 @@ void setup() {
   blackHole = loadImage("BlackHole.png");
 }
 void draw() {
-  level1();
+  switch(level){
+    case 1:
+    level1();
+    break;
+    case 2:
+    //level2();
+    break;
+  }
   image(player, playerX, playerY);
 }
 void sayText(String t) {
@@ -32,6 +40,11 @@ void level1() {
   } else if (playerX + 16 > 700 && playerX < (700 + (32*3)) && playerY + 16 > 400 && playerY < (400 + (64*3)) && hasYellowKey)
   {
     image(blackHole, 700, 400);
+    try{
+    Thread.sleep(1000);
+    } catch (Exception e){}
+    level++;
+    hasYellowKey = false;
   }else if(hasYellowKey){
     sayText("You have the key!");
   }
