@@ -36,7 +36,7 @@ void setup() {
   keyBing = minim.loadFile("Ding.wav");
   blackHoleSound = minim.loadFile("BlackHole.wav");
   leverFlip = minim.loadFile("LeverFlip.wav");
-  JOptionPane.showMessageDialog(null, "Get to the door! Use wasd to move.");
+  JOptionPane.showMessageDialog(null, "Get to the door! Use wasd to move.\n\nThere is information that may appear at the\ntop of the screen, which may hold useful info.\n\nTutorial levels have lemon backgrounds while puzzles\nhave dungeon-like backgrounds.");
 }
 void draw() {
   switch(level) {
@@ -93,29 +93,29 @@ void level1() {
   }
 }
 void keyPressed() {
-  if (key == 'w')
+  if (key == 'w' && playerY > 0)
   {
     playerY = playerY-mms;
-  } else if (key == 'a')
+  } else if (key == 'a' && playerX > 0)
   {
     playerX = playerX-mms;
-  } else if (key == 'd')
+  } else if (key == 'd' && playerX + 16 < 800)
   {
     playerX = playerX+mms;
-  } else if (key == 's')
+  } else if (key == 's' && playerY + 16 < 600)
   {
     playerY = playerY+mms;
-  } else if (key == 'n')
-  {
-    level++;
-  }
+  } 
+  //  else if (key == 'n'){
+  //    level++;
+  //  }
 }
 void level2() {
-  background = loadImage("Background2.png");
+  background = loadImage("Background1.png");
   SwichOn = loadImage("LeverOn.png");
   SwichOff = loadImage("LeverOff.png");
   image(background, 0, 0);
-  image(door2, 15, 15);
+  image(door, 15, 15);
   if (swich == false)
   {
     image(SwichOff, 100, 400);
@@ -129,16 +129,16 @@ void level2() {
     leverFlip = minim.loadFile("LeverFlip.wav");
     leverFlip.play();
   }
-  if (swich == true && !hasRedKey)
+  if (swich == true && !hasYellowKey)
   {
-    image(redKey, 200, 325);
+    image(yellowKey, 200, 325);
   }
-  if (playerX + 16 > 200 && playerX < (200 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasRedKey && swich) {
-    hasRedKey = true;
+  if (playerX + 16 > 200 && playerX < (200 + (32)) && playerY + 16 > 325 && playerY < (325 + (16)) && !hasYellowKey && swich) {
+    hasYellowKey = true;
     keyBing = minim.loadFile("Ding.wav");
     keyBing.play();
   }
-  if (playerX + 16 > 15 && playerX < (15 + (32*3)) && playerY + 16 > 15 && playerY < (15 + (64*3)) && hasRedKey)
+  if (playerX + 16 > 15 && playerX < (15 + (32*3)) && playerY + 16 > 15 && playerY < (15 + (64*3)) && hasYellowKey)
   {
     image(blackHole, 15, 15);
     blackHoleSound = minim.loadFile("BlackHole.wav");
@@ -149,11 +149,12 @@ void level2() {
     catch (Exception e) {
     }
     level++;
-    hasRedKey = false;
+    hasYellowKey = false;
     swich = false;
     playerX = 400;
     playerY = 300;
   }
+  sayText("When you activate levers, they stay on.");
 }
 void level3()
 {
@@ -164,12 +165,12 @@ void level3()
   image(door2, 15, 15);
   if (swich == false)
   {
-    image(SwichOff, 100, 400);
+    image(SwichOff, 100, 500);
   } else
   {
-    image(SwichOn, 100, 400);
+    image(SwichOn, 100, 500);
   }
-  if (playerX > 80 && playerX < 120 && playerY > 380 && playerY < 420 && !swich)
+  if (playerX + 16 > 100 && playerX < 100 + 16 && playerY + 16 > 500 && playerY < 500 + 16 && !swich)
   {
     swich = true;
     leverFlip = minim.loadFile("LeverFlip.wav");
@@ -181,12 +182,12 @@ void level3()
   }
   if (swich2 == false)
   {
-    image(SwichOff, 100, 500);
+    image(SwichOff, 100, 400);
   } else
   {
-    image(SwichOn, 100, 500);
+    image(SwichOn, 100, 400);
   }
-  if (playerX > 80 && playerX < 120 && playerY > 480 && playerY < 520)
+  if (playerX + 16 > 100 && playerX < 100 + 16 && playerY + 16 > 400 && playerY < 400 + 16)
   {
     swich2 = true;
     leverFlip = minim.loadFile("LeverFlip.wav");
@@ -359,6 +360,7 @@ void level4()
       keyBing.play();
     }
   }
+  sayText("Keys don't just open doors!");
 }
 
 void stop()
